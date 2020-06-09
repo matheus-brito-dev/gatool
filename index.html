@@ -1,0 +1,524 @@
+<!--
+    Copyright 2017 Matheus Brito de Oliveira - matheusbrito_si@hotmail.com.
+    This file is part of GATOOL - Genome Assembly Tool.
+
+    GATOOL is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    GATOOL is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/estilo.css">
+    </head>
+    <body>
+        <div class="header">
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                       
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+                        <a class="navbar-brand" href="http://localhost/gatool/">GATOOL - Genome Assembly Tool</a>
+                    </div>
+
+                    <div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a data-role="button" data-toggle="modal" data-target="#about">About</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" id="main">
+            <div class="row">
+                <div class="col-md-9">
+                    <ul class="nav nav-pills">
+                        <li role="presentation" class="alert-info" id="jumboEntry"><a href="#">Entry</a></li>
+                        <li role="presentation" id="jumboAnalysis"><a href="#" >Analysis</a></li>
+                        <li role="presentation" id="jumboTrimmer"><a href="#" >Trimmer</a></li>
+                        <li role="presentation" id="jumboAssembler"><a href="#" >Assembly</a></li>
+                        <li role="presentation" id="jumboOrientation"><a href="#" >Orientation</a></li>
+                    </ul>
+                    <!--<div id="jumboMenu" class="row">
+                        <div id="jumboEntry" class="col-md-2 jumbotron alert-info">1.Entry</div>
+                        <div id="jumboAnalysis" class="col-md-2 jumbotron col-md-offset-1">2.Analysis</div>
+                        <div id="jumboTrimmer" class="col-md-2 jumbotron col-md-offset-1">3.Trimmer&Filter</div>
+                        <div id="jumboAssembler" class="col-md-2 jumbotron col-md-offset-1">4.Assembly</div>
+                        <div id="jumboOrientation" class="col-md-2 jumbotron">5.Orientation</div>
+                    </div>-->
+                    <div class="row">
+                        <div class="col-md-12" id="view">
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist" style="display:none">
+                                <li role="presentation" class="active"><a id="tabEntry" href="#entry" aria-controls="entry" role="tab" data-toggle="tab">Entry</a></li>
+                                <li role="presentation"><a href="#analysis" id="tabAnalysis" aria-controls="analysis" role="tab" data-toggle="tab">Analysis</a></li>
+                                <li role="presentation"><a href="#trimmer" id="tabTrimmer" aria-controls="trimmer" role="tab" data-toggle="tab">Trimmer</a></li>
+                                <li role="presentation"><a href="#assembler" id="tabAssembler" aria-controls="assembler" role="tab" data-toggle="tab">Assembler</a></li>
+                                <li role="presentation"><a href="#orientation" id="tabOrientation" aria-controls="orientation" role="tab" data-toggle="tab">Orientation</a></li>
+                            
+                            </ul>
+                            
+                           <!-- <button id="btTeste" value="">teste</button>-->
+                            <div class="tab-content">
+                                
+                                        
+                                <div role="tabpanel" class="tab-pane active" id="entry">
+                                     
+                                    <h3>Send your Ion torrent reads - Single reads</h3>
+                                    <form id="upload_form" onsubmit="return upload_click(event)">
+                                     
+                                        <div class="form-group">
+                                            <input class="form-control" type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="5000000000">
+                                            <input class="form-control" type="file" name="file_upload" id="file_upload" required="required" multiple="multiple">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <input id="btUpload" name="btUpload" class="btn btn-primary" type="submit" value="Upload">
+                                            </div>
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <div class="progress">
+                                                        <div id="fileBar" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                        </div>
+                                                    </div>
+                                                    <h3 id="status"></h3>
+                                                    <p id="loaded_n_total"></p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="analysis">
+                                    <section class="col-md-8 col-lg-12 col-sm-4">
+                                        <h3 id="saida_analysis" class="page-header"></h3>
+                                        <div class="form-group">
+                                            <div class="progress">
+                                                <div id="fileBarAnalysis" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                    
+                                                </div>
+                                            </div>
+                                            <p><span id="retorno"></span></p>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="trimmer">
+                                           
+                                    <section>
+                                        <a data-role="button" id="btnGoAssembly" class="btn btn-success" onclick="goTabAssembler()" style="float:right; margin-top:-10px">Assembler Phase</a>
+                                            
+                                        <form id="frmTrimmer" onsubmit="return filter_click(event)" method="GET">
+                                             <h3 class="page-header">Trimmer&amp;Filter</h3>
+                                             
+                                              
+                                            <p><span id="retorno_filter"></span></p>
+                                            <div class="form-group">
+                                               <label for="selectFiles">Your initial file.</label>
+                                               <select id="selectFiles" name="selectFiles" class="form-control">
+                                                    <option value="">Select the files to Trimmer and Filter</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group">
+                                                <label for="opt">Select the option below</label>
+                                                <select id="opt" name="opt" class="form-control" onchange="return chooseOpt(event);" required>
+                                                    <option value="0">Trimmer&amp;Filter</option>
+                                                    <option value="1">Only Trimmer</option>
+                                                    <option value="2">Only Filter</option>
+                                       
+                                                    
+                                                </select>
+                                              </div> 
+                                            
+                                            <div class="form-group" id="trimmer1">
+                                                <label for="selectPhredSeq">Phred - Trimmer</label>
+                                                <select id="selectPhredSeq" name="selectPhredSeq" class="form-control" >
+                                                    <option value="">Select the Phred value</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                    <option value="30">30</option>
+                                                    
+                                                </select>
+                                            </div>
+                                            <div class="form-group" id="trimmer2">
+                                                <label for="selectTrimSeq">Reads length - select the size to be cut in bp </label>
+                                                <select name="selectTrimSeq" id="selectTrimSeq" class="form-control" >
+                                                    <option value="">Select the size to be cut (50pb) for example</option>
+                                                    <option value="40">40</option>
+                                                    <option value="50">50</option>
+                                                    <option value="60">60</option>
+                                                    <option value="70">70</option>
+                                                    <option value="80">80</option>
+                                                    <option value="90">90</option>
+                                                    <option value="100">100</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="form-group" id="filter1">
+                                                <label for="selectQualPhred">Phred - Filter</label>
+                                                <select id="selectQualPhred" name="selectQualPhred" class="form-control" >
+                                                    <option value="">Select the Phred value</option>
+                                                    <option value="20">20</option>
+                                                    <option value="25">25</option>
+                                                    <option value="30">30</option>
+                                                   
+                                                </select>
+                                            </div>
+                                            <div class="form-group" id="filter2">
+                                                <label for="selectQualSeq">Quality of readings</label>
+                                                <select id="selectQualSeq" name="selectQualSeq" class="form-control" >
+                                                    <option value="">Select the value of the quality of the reads</option>
+                                                    <option value="50">50</option>
+                                                    <option value="60">60</option>
+                                                    <option value="70">70</option>
+                                                    <option value="80">80</option>
+                                                    <option value="90">90</option>
+                                                    <option value="100">100</option>
+                                                </select>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <input id="btFilter" name="btFilter" class="btn btn-primary" type="submit" value="Trimmer&Filter">
+                                                    
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <div class="progress">
+                                                            <div id="fileBarFilter" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                            </div>
+                                                        </div>
+                                                        <h3 id="status"></h3>
+                                                        <p id="loaded_n_total"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+
+                                    </section>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="assembler">
+                                    <section class="col-md-8 col-lg-12 col-sm-4">
+                                        <h4 style="float:right; margin-top:1.3cm" id="ks">k-mer: <span class="label label-info"></span></h4>   
+                                        <form id="frmAssembler" method="GET" onsubmit="return initAssembler(event)">
+                                        <h3 id="saida_assembler" class="page-header">Assembler</h3>
+                                        
+                                        
+                                        <div class="form-group">
+                                            <label for="selectFileAssembler">Choose the file to Assembler.</label>
+                                               <select id="selectFileAssembler" name="selectFileAssembler" class="form-control" required="required">
+                                                    <option value="">Select the file</option>
+                                                    
+                                                </select>
+                                        </div>
+                                            <!--Adição de mais montadores-->
+                                            <div class="form-group">
+                                            <label for="selectAssemblerTool">Select the assembler tool</label>
+                                            <select id="selectAssemblerTool" name="selectAssemblerTool" class="form-control" required>
+                                                <option value="" selected="selected">Select the assembler tool</option>
+                                                    <option value="1">SPAdes Assembler</option>
+                                                    <option value="2">Velvet Assembler</option>
+                                                    <!--<option value="3">Mira Assembler</option>-->
+                                                </select>
+                                            <!--fim-->
+                                            </div>
+                                            <div class="form-group">
+                                            <label for="selectCutOff">CutOff value - Read coverage</label>
+                                                <select id="selectCutOff" name="selectCutOff" class="form-control" required>
+                                                    <option value="">Select the cutoff value</option>
+                                                    <option value="0">auto</option>
+                                                    <option value="1">1,0</option>
+                                                    <option value="2">2,0</option>
+                                                    <option value="3">3,0</option>
+                                                    <option value="4">4,0</option>
+                                                    <option value="5">5,0</option>
+                                                    <option value="6">6,0</option>
+                                                    <option value="7">7,0</option>
+                                                    <option value="8">8,0</option>
+                                                    <option value="9">9,0</option>
+                                                    <option value="10">10,0</option>
+                                                </select>
+                                            </div>
+                                        <div class="form-group">
+                                            <label for="inpOutputFolder">Provide the output folder name</label>
+                                            <input type="text" class="form-control" id="inpOutputFolder" required>
+                                               
+                                       </div>
+                                            
+                                            <div class="form-group" id="minContigsBox">
+                                               
+                                                <label for="minContigs">Min. Number of contis for Quast Report</label>
+                                                <input type="text" class="form-control" id="minContigs">
+                                                
+                                            </div>
+                                            <div class="form-group" id="kmerVelvetBox">
+                                            <label for="kmerVelvet">Select the k-mer value(s)</label>
+                                            <select id="kmerVelvet" name="kmerVelvet" class="form-control">
+                                                <option value="" selected="selected">Select the k-mer</option>
+                                                     <option value="21">21</option>
+                                                     <option value="31">31</option>
+                                                     <option value="55">55</option>
+                                                     <option value="21,31,55,77">21,31,55,77</option>
+                                                    <!--<option value="3">Mira Assembler</option>-->
+                                                </select>
+                                                </div>
+                                            
+                                        <div class="form-group" id="checkboxes">
+                                            
+                                            <input type="checkbox" name="fastAssembly" id="fastAssembly"> Fast Assembly
+                                            <input type="checkbox" name="scMode" id="scMode"> MDA - Single Cell for non-trivial datasets (e.g. high GC, low or uneven coverage)
+                                        </div>
+                                            
+                                        <div class="row">
+                                        <div class="col-md-2">
+                                            <input id="btAssembler" name="btAssembler" class="btn btn-primary" type="submit" value="Assembler"></div>
+                                        <div class="col-md-10">
+                                            <div class="form-group">
+                                            <div class="progress">
+                                                <div id="fileBarAssembler" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+                                            <p><span id="retornoAssembler"></span></p>
+                                        </div>
+                                  </form> 
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="orientation">
+                                    <section class="col-md-8 col-lg-12 col-sm-4">
+                                        
+                                        <h3 id="saida_orientation" class="page-header">Contigs Orientation</h3>
+                                        
+                                        <div class="form-group">
+                                            <h4>Please select the option below</h4>
+                                            <form>
+                                                
+                                                <input type='radio' id='rdUpload' name='type' value='0' /> <label for="radio_1">Upload the reference genome</label>
+                                                <input type='radio' id='rdOnline' name='type' value='1' /> <label for="radio_2">Search Online for reference genome</label>
+                                               
+                                            </form>
+                                            
+                                        </div>
+                                        
+                                        
+                                        <div id="opUpload"><!---->
+                                            <form id="uploadFormFasta" onchange="enableButton(event);" onsubmit="return uploadFasta(event);">
+                                            <h4>Select the reference genome in fasta format</h4>
+                                            <div class="form-group">
+                                                <input class="form-control" type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000">
+                                                <input class="form-control" type="file" name="fileFastaUpload" id="fileFastaUpload" required="required">
+                                            </div>
+                                           <h4>Select the reference genome in gb format</h4>
+
+                                            <div class="form-group">
+                                                <input class="form-control" type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="1000000">
+                                                <input class="form-control" type="file" name="fileGbUpload" id="fileGbUpload" required="required">
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-2">
+                                                    <input id="btMultipleUp" name="btMultipleUp" class="btn btn-primary" type="submit" value="Orientation">
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <div class="progress">
+                                                            <div id="fileBarMultipleUp" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                            </div>
+                                                        </div>
+                                                        <h3 id="status"></h3>
+                                                        <p id="loaded_n_total"></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        </div>
+                            
+                                        <div id="opOnline">
+                                            <form method="GET" id="frmOrientation" onsubmit="return orientContigs(event);">
+
+                                                <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" id="term" placeholder="Search for the reference genome...">
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" id="btTerm" type="button" onclick="return initOrientation(event);">Go!</button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                            <div class="form-group">
+                                                <label id="label1" for="organisms">Search...</label>
+                                                <select id="organisms" class="form-control" onchange="onClickOrganisms(event);" required="required">
+                                                        <option value="">Search...</option>
+                                                </select>
+                                            </div>
+                                        <div class="form-group">
+                                            <label id="label2" for="references">Select the reference genome</label>
+                                            <select id="references" class="form-control" onchange="onClickOrganismsReferece(event);" required="required">
+                                                    <option value="">Select...</option>
+                                            </select>
+                                        </div>
+
+                                            <div class="form-group">
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-md-2">
+                                            <input id="btOrientation" name="btOrientation" class="btn btn-primary" type="submit" value="Orientation">
+                                            
+                                            </div>
+                                       
+                                            <div class="col-md-10">
+                                               
+                                                <div class="form-group">
+                                                    <div class="progress">
+                                                        <div id="fileBarOrientation" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <p><span id="retornoOrientation"></span></p>
+                                            </div>
+                                        </form>
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="reports" class="col-md-3">
+                    
+                        <h2>History: <button class="btn btn-danger" onclick="restart_process()">Restart process</button></h2>
+                        <ul id="report_itens" class="list-group">
+                            
+                    </ul>
+                    
+                </div>
+                
+                <div id="files" class="col-md-3" style="float: right;">
+                    
+                    <h2>Files to <span style="margin-left: 4px; font-size: 22px; " class="label label-info">download</span></h2>
+                    <ul style="word-wrap: break-word;" id="files_itens" class="list-group">
+                            
+                    </ul>
+                    
+                </div>
+                </div>
+            </div>
+
+        <div class="modal fade" id="confirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                     <h4 class="modal-title" id="myModalLabel">Trimmer and Filter again?</h4>
+                </div>
+            
+                <div class="modal-body">
+                    
+                     <p>Do you want to perform the trimming and filter operations again?</p>
+                     <p>If you answer yes, all data from previous analyzes will be deleted. If you answer no, the system will proceed with the assembler phase.</p>
+                
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" onClick="goTabTrimmerDelete()">Yes</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" onClick="goTabAssembler()">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+        
+       <div class="modal fade" id="about" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+           
+        <div class="modal-dialog">
+            <div class="modal-content">
+            
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                    <h4 class="modal-title" id="myModalLabel"><span>GATOOL PIPELINE</span></h4>
+                </div>
+            
+                <div class="modal-body">
+                    
+                    
+                        <div class="">
+                        <h3>View</h3>
+                        <p style="text-align: justify;"><span class="badge">GATOOL</span> is a web interface whichs
+                        integrates several tools, with the purpose of to do a genome assembly task and provide 
+                        to the users a nice and real experience. and a very fast way to genomes assembly.
+                       
+                            </p>
+                    </div>
+                    <div class="">
+                        <h3>Some Features</h3>
+                        <ul class="list-group" style="list-style-type: none;">
+                            <li class="list-group-item-info">Full integration among all tools</li>
+                            <li class="list-group-item-info">Single end reads</li>
+                            <li class="list-group-item-info">Allows a rapid quality analysis of reads</li>
+                            <li class="list-group-item-info">Rapid preprocessing of the reads</li>
+                        </ul>
+                    </div>
+                    <div class="">
+                        <h3>Workflow</h3>
+                            <p>Bellow the flow of the GATOOL pipeline works</p>
+                            <img style="" src="images/teste.jpg" width="280" height="200" />
+                    </div>
+                    <div class="">
+                        <h3>Tools</h3>
+                        <p style="text-align: justify;">GATOOL pipeline is equiped with several of differents
+                            tools. See below a resume of this tools:</p>
+                        <ul class="list-group" style="list-style-type: none;">
+                            <li class="list-group-item-info">FATSQC - A tool of Quality Control of fragments</li>
+                            <li class="list-group-item-info">FASTX-Toolkit - A rapid kit for preprocessing files</li>
+                            <li class="list-group-item-info">SPAdes Genome Assembler and Velvet Genome Assembler</li>
+                     
+                        </ul>
+                        
+                    </div>
+            </div>
+       
+                </div>
+            </div>
+        </div>
+    
+  
+        <footer>
+            <div class="container">  
+                <p class="text-muted">&copy; GATOOL - Genome Assembly Tool (Beta) - v.0.2 - Design by Matheus Brito de Oliveira</p>
+            </div>
+        </footer> 
+    
+        <script src="js/jquery.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/controls.js"></script>
+        <script src="js/tabEntry.js"></script>
+        <script src="js/tabAnalysis.js"></script>
+        <script src="js/tabFilter.js"></script>
+        <script src="js/tabAssembler.js"></script>
+        <script src="js/tabOrientation.js"></script>
+        <script type="text/javascript">
+        </script>
+        
+    </body>
+</html>
+
