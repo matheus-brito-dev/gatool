@@ -1,6 +1,7 @@
 # gatool
 Gatool - Genome Assembly Tool
-GATOOL is a web interface whichs integrates several tools, with the purpose of to do a genome assembly task and provide to 
+
+Gatool is a web interface whichs integrates several tools, with the purpose of to do a genome assembly task and provide to 
 the users a nice and real experience. and a very fast way to genomes assembly.
 
 Some Features:
